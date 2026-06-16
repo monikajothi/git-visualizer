@@ -7,7 +7,7 @@ export const sections = [
     icon: '🌱',
     color: 'green',
     status: 'done',
-    pdf: '/notes/Git_Intro_and_Version_control_.pdf',
+    pdf: 'notes/Git_Intro_and_Version_control_.pdf',
     description: 'What Git is, version control concepts, object model, workflows',
   },
   {
@@ -16,7 +16,7 @@ export const sections = [
     icon: '⚡',
     color: 'blue',
     status: 'done',
-    pdf: '/notes/Basics_.pdf',
+    pdf: 'notes/Basics_.pdf',
     description: 'Creating repos, staging area, commits, status, .gitignore',
   },
   {
@@ -25,7 +25,7 @@ export const sections = [
     icon: '🔍',
     color: 'cyan',
     status: 'done',
-    pdf: '/notes/Viewing_and_Searching_History.pdf',
+    pdf: 'notes/Viewing_and_Searching_History.pdf',
     description: 'git show, log, diff, blame, grep, bisect',
   },
   {
@@ -34,7 +34,7 @@ export const sections = [
     icon: '📁',
     color: 'yellow',
     status: 'done',
-    pdf: '/notes/Remove__Rename_and_File_permissions_.pdf',
+    pdf: 'notes/Remove__Rename_and_File_permissions_.pdf',
     description: 'git rm, mv, file permissions, .gitattributes',
   },
   {
@@ -43,7 +43,7 @@ export const sections = [
     icon: '↩️',
     color: 'orange',
     status: 'done',
-    pdf: '/notes/Undoing_Changes.pdf',
+    pdf: 'notes/Undoing_Changes.pdf',
     description: 'checkout, restore, reset modes, revert, stash, clean',
   },
   {
@@ -52,7 +52,7 @@ export const sections = [
     icon: '🌿',
     color: 'green',
     status: 'done',
-    pdf: '/notes/branches.pdf',
+    pdf: 'notes/branches.pdf',
     description: 'Creating, switching, merging branches',
   },
   {
@@ -61,7 +61,7 @@ export const sections = [
     icon: '☁️',
     color: 'blue',
     status: 'done',
-    pdf: '/notes/remote.pdf',
+    pdf: 'notes/remote.pdf',
     description: 'push, pull, fetch, remote tracking',
   },
   {
@@ -70,7 +70,7 @@ export const sections = [
     icon: '🔀',
     color: 'purple',
     status: 'done',
-    pdf: '/notes/merge.pdf',
+    pdf: 'notes/merge.pdf',
     description: 'Merge strategies, rebase, conflict resolution',
   },
   {
