@@ -1,3 +1,5 @@
+import { content } from './content'
+
 export const interviewQA = {
   intro: [
     { q: "What is Git and how is it different from other VCS?", a: "Git is a distributed VCS — every developer has a full copy of the repo including history. Unlike centralized VCS (SVN), you can work offline, branch freely, and merge without a central server. Git is faster, more flexible, and supports non-linear development.", level: "basic" },
@@ -72,6 +74,23 @@ export const interviewQA = {
     { q: "Explain workflows that involve forks and upstream repositories (open-source model).", a: "Fork repository to your account (origin), add upstream remote pointing to original repo, work on feature branches, push to your origin, open PR against upstream, periodically fetch & rebase from upstream to stay current.", level: "basic" },
     { q: "Scenario: large file accidentally committed and pushed. What do you do?", a: "Remove the file from history using git filter-repo or BFG, add the file to .gitignore, force-push cleaned history (notify collaborators), and consider using Git LFS for large files going forward.", level: "advanced" },
   ],
+  github: [
+    { q: "Describe the fork & PR workflow for open-source contributions.", a: "Fork the upstream repo, clone your fork, create a feature branch, implement changes, push branch to your fork, create a PR from your fork to upstream, address review feedback, and merge when approved.", level: "basic" },
+    { q: "How do you keep your fork in sync with the upstream repo?", a: "Add the original repository as an upstream remote (git remote add upstream <url>), fetch upstream (git fetch upstream), then rebase or merge upstream/main into your branch (git rebase upstream/main) before pushing to your fork.", level: "intermediate" },
+    { q: "What are branch protection rules and why use them?", a: "Branch protection rules enforce policies on branches (require PR reviews, required status checks, disallow force pushes). They prevent accidental direct pushes and ensure CI and code review before merging to main.", level: "basic" },
+    { q: "When should you use GitHub Actions vs external CI?", a: "Use GitHub Actions for tight integration with GitHub events (PRs, pushes) and when you want simple workflows stored in the repo. External CI may be used for organization-specific tooling or if you already have an established CI provider with special capabilities.", level: "intermediate" },
+  ],
+  advanced: [
+    { q: 'What are packfiles and why do they matter?', a: `Packfiles bundle many loose Git objects into compressed files and store deltas between objects. They reduce disk usage and speed up clone/fetch operations. Commands: git gc, git repack -a -d --depth=250 --window=250 to optimize packs; git verify-pack to inspect pack contents.`, level: 'advanced' },
+    { q: 'When should you run git gc or repack?', a: `Run git gc (garbage collect) when the repository has many loose objects or after large history rewrites. Use git gc --aggressive or git repack for tighter packing when clones become slow or disk usage is high.`, level: 'advanced' },
+    { q: 'How do annotated and lightweight tags differ and how do you manage tags?', a: `Annotated tags store metadata (tagger, date, message) and are created with git tag -a v1.0.0 -m "msg"; lightweight tags are simple refs. List tags with git tag, view details with git show <tag>, and push tags with git push origin --tags.`, level: 'advanced' },
+    { q: 'What is cherry-picking and how do you handle conflicts?', a: `Cherry-pick applies selected commits from another branch onto your current branch (git cherry-pick <hash>). For multiple commits you can specify ranges. If conflicts occur resolve them, git add the files, then git cherry-pick --continue or abort with --abort.`, level: 'advanced' },
+    { q: 'When should you use git filter-repo vs git filter-branch?', a: `git filter-branch is older and slow for large repos. Prefer git-filter-repo (pip install git-filter-repo) for safe, fast history rewrites (e.g., removing secrets). Always coordinate and force-push cleaned history afterwards.`, level: 'advanced' },
+    { q: 'What are Git worktrees and when are they useful?', a: `git worktree lets you check out multiple branches simultaneously in the same repository (git worktree add ../branch <branch>). Useful for working on long-lived branches, running tests in parallel, or preparing a release without switching your main working tree.`, level: 'advanced' },
+    { q: 'How do submodules/subtrees differ and when to use them?', a: `Submodules embed a reference to another repo (git submodule add <url>) and keep it separate; subtrees merge another repo's contents into a subdirectory. Use submodules when you need clear separation and independent history; use subtree when you want integrated content without the separate clone workflow.`, level: 'advanced' },
+    { q: 'How do you safely remove sensitive data from history?', a: `Rotate credentials first. Use git-filter-repo (or BFG) to remove files from all history, then force-push the cleaned branches (git push --force-with-lease). Notify collaborators and consider repository rotation if exposure was wide.`, level: 'advanced' },
+    { q: 'What tooling helps manage client-side hooks in JS projects?', a: `Use tooling like Husky to manage Git hooks (pre-commit, commit-msg, pre-push). Install and configure hooks to run linters, formatters, or tests automatically before commits or pushes.`, level: 'intermediate' },
+  ],
 }
 
 export const quickFacts = {
@@ -83,4 +102,20 @@ export const quickFacts = {
   branches: ["Branch names live in .git/refs/heads/", "Deleting a branch does not delete commits if reachable from other refs", "Use prefixes like feature/ or bugfix/ for clarity"],
   merge: ["Fast-forward moves branch pointer without merge commit", "Rebase rewrites commits — avoid on shared branches", "git rerere helps reuse conflict resolutions"],
   remote: ["Origin is just a convention for remote name", "Use --force-with-lease instead of --force when pushing rewritten history", "git fetch updates remote-tracking branches (origin/*)"]
+  ,
+  advanced: [
+    'Packfiles compress many loose objects — run `git gc` to pack and save space',
+    'Use `git repack -a -d --depth=250 --window=250` for tighter packing on large repos',
+    'Annotated tags store metadata (use `git tag -a`) — push tags with `git push origin --tags`',
+    'Use `git cherry-pick` to apply individual commits; resolve conflicts then `git cherry-pick --continue`',
+    'Prefer `git-filter-repo` over `git filter-branch` for rewrites (remove secrets safely)',
+    'Use `git worktree` to check out multiple branches concurrently for parallel work',
+    'Submodules keep separate repo history; subtrees embed another repo — choose based on coupling',
+    'Use Husky to manage client-side hooks (pre-commit, commit-msg, pre-push) in JS projects',
+  ],
+  github: [
+    "Use PRs for code review and CI checks",
+    "Protect main with required status checks and reviews",
+    "Use Actions for CI and automated workflows stored in the repo",
+  ]
 }

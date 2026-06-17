@@ -74,12 +74,21 @@ export const sections = [
     description: 'Merge strategies, rebase, conflict resolution',
   },
   {
+    id: 'github',
+    label: 'GitHub Essentials',
+    icon: '🐙',
+    color: 'purple',
+    status: 'done',
+    pdf: 'notes/github-essentials.pdf',
+    description: 'Forks, PRs, issues, releases, GitHub Actions and workflows',
+  },
+  {
     id: 'advanced',
     label: 'Advanced Git',
     icon: '🚀',
     color: 'red',
-    status: 'coming',
-    pdf: null,
+    status: 'done',
+    pdf: 'notes/Advanced.pdf',
     description: 'Cherry-pick, tags, hooks, submodules',
   },
 ]

@@ -1,3 +1,5 @@
+import { title } from "framer-motion/client";
+
 // All content extracted from handwritten notes
 export const content = {
 
@@ -455,6 +457,8 @@ export const content = {
       tip: 'Easy to use GUIs like github, sourcetree, GitKraken',
     },
   },
+
+
  
   remote: {
     title: 'Remote & Collaboration',
@@ -635,16 +639,514 @@ export const content = {
       ],
     },
   },
-
-  advanced: {
-    title: 'Advanced Git',
-    sample: true,
+   github: {
+    title: 'GitHub Essentials',
+    subtitle: 'Web-based platform — uses Git for version control & collaboration',
+    pdfFile: 'GitHub_essentials_.pdf',
+ 
+    // ── 1. PLATFORM OVERVIEW ────────────────────────────────────────────────
+    overview: {
+      definition:
+        'Web-based platform that uses Git for version control & collaboration. Hosts repositories and adds collaboration tools on top of Git.',
+      features: [
+        {
+          name: 'Repo',
+          icon: '📦',
+          color: '#3fb950',
+          desc: 'Storage space for projects. Includes revision history. Can be public or private.',
+        },
+        {
+          name: 'Issues',
+          icon: '🐛',
+          color: '#f85149',
+          desc: 'Allows team to track bugs, feature requests, milestones. Each has labels, assignees, comments. Easy to organise work.',
+        },
+        {
+          name: 'Pull Requests (PR)',
+          icon: '🔀',
+          color: '#58a6ff',
+          desc: 'Merging between branches. CI/CD feature to automate workflows.',
+        },
+        {
+          name: 'Actions',
+          icon: '⚙️',
+          color: '#bc8cff',
+          desc: 'CI/CD feature. Users define custom workflows — to build, test & deploy. Based on spec trigger (push/pull). Stored in .github/workflows.',
+        },
+        {
+          name: 'Forks',
+          icon: '🍴',
+          color: '#e3b341',
+          desc: 'Create personal copy — for OS projects.',
+        },
+        {
+          name: 'Branch Protection Rules',
+          icon: '🛡️',
+          color: '#39d0d8',
+          desc: 'Prevent push from critical branches like main/prod. Maintain code integrity.',
+        },
+        {
+          name: 'License',
+          icon: '📄',
+          color: '#7d8590',
+          desc: 'Specifying how others can use your project. For open source — MIT / Apache 2.0 commonly used.',
+        },
+        {
+          name: 'Wiki',
+          icon: '📖',
+          color: '#3fb950',
+          desc: 'For documentation. Knowledge base — simple & organised.',
+        },
+      ],
+    },
+    // simple commands + demo for UI section
     commands: [
-      { cmd: 'git tag v1.0.0', desc: 'Create a lightweight tag' },
-      { cmd: 'git tag -a v1.0.0 -m "msg"', desc: 'Create annotated tag' },
-      { cmd: 'git hooks', desc: 'Scripts triggered at git events' },
-      { cmd: 'git submodule add <url>', desc: 'Add a submodule' },
-      { cmd: 'git reflog', desc: 'History of HEAD movements' },
+      { cmd: 'gh auth login', desc: 'Authenticate with GitHub CLI' },
+      { cmd: 'git clone <repo>', desc: 'Clone a repository (or use fork+clone when contributing)' },
+      { cmd: 'git remote add upstream <url>', desc: 'Add upstream remote for forks' },
+      { cmd: 'git push origin <branch>', desc: 'Push branch to your fork or origin' },
+      { cmd: 'gh pr create --title "..." --body "..."', desc: 'Create a pull request with GitHub CLI' },
+      { cmd: 'gh pr checkout <number>', desc: 'Checkout PR locally' },
+      { cmd: 'gh issue create --title "..." --body "..."', desc: 'Open an issue via CLI' },
     ],
+
+    demoTerminal: {
+      lines: [
+        { cmd: 'gh auth login --with-token', out: 'Authentication complete' },
+        { cmd: 'git checkout -b fix/readme', out: 'Switched to branch fix/readme' },
+        { cmd: 'git add README.md && git commit -m "Fix README"', out: '[main 1a2b3c] Fix README' },
+        { cmd: 'git push -u origin fix/readme', out: 'To https://github.com/you/repo.git\n * [new branch]      fix/readme -> fix/readme' },
+        { cmd: 'gh pr create --title "Fix README" --body "Docs fix"', out: 'Created pull request #42' },
+      ]
+    },
+
+    bestPractices: [
+      'Use fork + PR workflow for external contributions',
+      'Protect main branch with required reviews and status checks',
+      'Use Issues + Labels for triage and project planning',
+      'Use releases & tags for versioned artifacts',
+    ],
+ 
+    // ── 2. SSH SETUP ────────────────────────────────────────────────────────
+    ssh: {
+      title: 'GitHub SSH Setup',
+      subtitle: '(Secure Shell)',
+      definition:
+        'Provides secure channel over unsecured network. (Securing remote login & other secure network services.) Authenticate identity without passwords on hardware.',
+      howItWorks:
+        'SSH uses cryptographic keys — Public Key (stored in GitHub, shared openly) + Private Key (in local machine, never shared, keeps you secure). Enhances security & simplifies workflow.',
+      steps: {
+        generating: [
+          {
+            step: 1,
+            desc: 'Open Git bash (terminal)',
+          },
+          {
+            step: 2,
+            cmd: 'ssh-keygen -t rsa -b 4096 -C "email@example.com"',
+            desc: '-t rsa → type of key (have RSA), -b 4096 → no. of bits (larger = better security, have email), -C → label tied to key (have email)',
+          },
+          {
+            step: 3,
+            desc: 'When prompted, press Enter — accept default file location (~/.ssh/id_rsa)',
+          },
+          {
+            step: 4,
+            desc: 'Optionally add passphrase — another layer of security',
+          },
+        ],
+        verifying: [
+          'In ssh dir: ~/.ssh/',
+          '  id_rsa       ← private key',
+          '  id_rsa.pub   ← public key',
+          '  ls -al ~/.ssh',
+        ],
+        addingToAgent: [
+          {
+            step: 1,
+            desc: 'Start agent',
+            cmd: 'eval "$(ssh-agent -s)"',
+            note: 'Started in bg. Output shows Agent pid <id>.',
+          },
+          {
+            step: 2,
+            desc: 'Add key',
+            cmd: 'ssh-add ~/.ssh/id_rsa',
+          },
+        ],
+        addingToGithub: [
+          {
+            step: 3,
+            desc: 'Copy public key — copy contents of pub key to clipboard to commands',
+          },
+          {
+            step: 4,
+            desc: 'In GitHub Settings → SSH & GPG keys → New SSH key',
+            note: 'Fill title — add desc name (name of computer). Key → copied contents. Add SSH key.',
+          },
+        ],
+        testing: {
+          cmd: 'ssh -T git@github.com',
+          desc: 'In terminal. If ✓ → output — success.',
+        },
+        troubleshooting: [
+          { issue: 'Incorrect key permission', fix: 'chmod 600 ~/.ssh/id_rsa' },
+          { issue: 'SSH agent issue', fix: 'Restart & re-add key' },
+          { issue: 'Multiple keys', fix: 'Specify which key — create/edit ~/.ssh/config file' },
+        ],
+      },
+    },
+ 
+    // ── 3. HTTPS SETUP ──────────────────────────────────────────────────────
+    https: {
+      title: 'GitHub HTTPS Setup',
+      definition:
+        'HTTPS — Hypertext Transfer Protocol Secure. Uses SSL/TLS encryption for secure connection between local & remote server. Data remains private & integral during transmission. Used when SSH restricted. Easier than SSH.',
+      setup: [
+        { step: 1, desc: 'Copy HTTPS URL' },
+        { step: 2, desc: 'Go to repo on GitHub' },
+        { step: 3, desc: 'Code button' },
+        { step: 4, desc: 'Select HTTPS tab & copy URL' },
+        { step: 5, cmd: 'git clone <url>', desc: 'Clone repo' },
+        { step: 6, desc: 'Navigate to it' },
+      ],
+      authentication: {
+        whenPush: 'git asks username → GitHub username, password → use PAT.',
+        PAT: {
+          desc: 'Personal Access Tokens (PATs)',
+          steps: [
+            'Go to GitHub → Settings → Developer',
+            'PAT → Classic → generate new',
+            'Scopes (ensure repo) → generate',
+            'Store securely (cannot see again)',
+          ],
+        },
+        credentialCaching: {
+          desc: 'Push to git config — through cmds store with timeout (permanently)',
+          withTimeout: 'git config --global credential.helper "cache --timeout=3600"',
+          permanently: 'git config --global credential.helper store',
+        },
+      },
+      sshVsHttps: [
+        { aspect: 'Authentication', ssh: 'Key-based (no password)', https: 'Username + PAT' },
+        { aspect: 'Setup', ssh: 'More steps', https: 'Easier' },
+        { aspect: 'Security', ssh: 'Very secure', https: 'Secure (SSL/TLS)' },
+        { aspect: 'Firewall', ssh: 'May be blocked', https: 'Rarely blocked' },
+        { aspect: 'Best for', ssh: 'Regular contributors', https: 'Quick access / restricted env' },
+      ],
+    },
+ 
+    // ── 4. PULL REQUESTS ────────────────────────────────────────────────────
+    pullRequests: {
+      title: 'GitHub Pull Requests (PR)',
+      definition:
+        'Request to merge code changes from branch to branch. Like saying "I\'ve completed the work, you can review it to become part of the project."',
+      structure: 'Has — title, description, diff view.',
+      creating: [
+        'Push to origin',
+        'Go to GitHub',
+        'Pull request tab',
+        'New → choose branches',
+        'Review → fill title, desc',
+        'Create PR',
+      ],
+      reviewing: [
+        'Read description',
+        'Check code (diff, code quality, style consistency, logic errors, bugs, key considerations)',
+        'Leave comments',
+        'Request change / approve PR',
+      ],
+      merging: [
+        { method: 'Merge commit', desc: 'Creates a merge commit — full history preserved' },
+        { method: 'Squash & merge', desc: 'Squashes all commits into one clean commit' },
+        { method: 'Rebase & merge', desc: 'Replays commits on top of base branch — linear history' },
+      ],
+      workflows: [
+        'Feature branch workflow',
+        'Forking workflow',
+        'GitHub workflow',
+      ],
+    },
+ 
+    // ── 5. GITHUB ISSUES ────────────────────────────────────────────────────
+    issues: {
+      title: 'GitHub Issues',
+      definition:
+        'Interactive way to manage tasks, bugs, features with repo. Track progress, doc discussions, prioritise work efficiently.',
+      structure: {
+        fields: ['Title', 'Description', 'Labels (bugs, features)', 'Assignees (team members)', 'Comments'],
+      },
+      creatingAndManaging: [
+        'In GitHub → repo → Issues → New',
+        'Add @mentions',
+      ],
+      closingIssues: {
+        desc: 'Comments like "fixes/closes #issue-number" automatically links issue to relevant commit/PR. Provides clear context.',
+        keywords: ['fixes', 'closes', 'resolves'],
+      },
+      searchingAndFiltering: [
+        'In search / adv search bar',
+        'e.g. is:open is:issue label:bug',
+      ],
+      integrateWithPRs: [
+        'Include issue number in PR description',
+        'Once linked — automatically closed',
+      ],
+      automating: 'GitHub Actions with issues.',
+      customTemplates: 'Use custom templates for consistency.',
+    },
+ 
+    // ── 6. GITHUB PAGES ─────────────────────────────────────────────────────
+    pages: {
+      title: 'GitHub Pages',
+      definition:
+        'Host static websites directly from GitHub repos. Showcase portfolio, docs, run blog, landing pages. Serves HTML, CSS & JS. Works by using contents of specific branch in repo — main / dedicated branch gh-pages. When changes pushed here, website updates automatically.',
+      setting: [
+        {
+          step: 1,
+          desc: 'Create repo',
+          note: 'Name → username.github.io → optional readme & licence',
+        },
+        {
+          step: 2,
+          desc: 'Enable pages',
+          note: 'Repo settings → GitHub pages → source → choose branch → save → it gives URL (hosted)',
+        },
+      ],
+      customizing: [
+        {
+          title: 'Custom domains',
+          steps: [
+            'Add cname file to root of repo with custom domain name inside it',
+            'Configure DNS to point GitHub\'s servers → 185.199.108.153 / 109/110/111',
+            'Need A rec pointing to those IPs',
+          ],
+        },
+        {
+          title: 'Jekyll for static site generation',
+          desc: 'Use templates, layouts, Markdown — more dynamic.',
+          steps: [
+            'Use templates, layouts in root of repo — configure it',
+            '1) Create config.yml file in root of repo',
+            '2) Create markdown files (md files like about.md)',
+            '3) Commit & push',
+          ],
+        },
+      ],
+      advanced: [
+        {
+          title: 'GitHub Actions for automation',
+          desc: 'Use GitHub actions for automation. When pushed on main branch, build Jekyll site & deploy to GitHub pages.',
+        },
+        {
+          title: 'Multiple environments',
+          desc: 'dev branch — dev & test. main branch — stable releases. Enable changing in settings.',
+        },
+      ],
+    },
+ 
+    // ── 7. GITHUB RELEASES ──────────────────────────────────────────────────
+    releases: {
+      title: 'GitHub Releases',
+      definition:
+        'Bridge between dev process & end users. Easy communications about updates, bug fixes & new features. Way to package & distribute software at specific point of time. Each release — reference exact state of code when that version created.',
+      benefits: [
+        'Versioning — diff versions of software marked',
+        'Changelog — automatically generate log of changes & improvements',
+        'Attachments — include binary files, docs, relevant assets',
+      ],
+      creating: {
+        byInline: [
+          'github → release',
+          'New release',
+          'Tag version (like v1.0.0), release title, desc & attach files',
+          'Publish',
+        ],
+        byCmdline: [
+          'Create tag & push from cmd',
+          'git tag v1.0.0 && git push origin v1.0.0',
+          'github-release create — there exists the tag here created',
+        ],
+        note: 'Can be automated with Actions.',
+      },
+      bestPractices: [
+        {
+          name: 'Semantic Versioning (SemVer)',
+          format: 'MAJOR.MINOR.PATCH',
+          rules: [
+            'MAJOR — incompatible API changes',
+            'MINOR — new features, backward compatible',
+            'PATCH — backward compatible bug fixes',
+          ],
+        },
+        { name: 'Detailed changelogs', desc: 'Organise (added, changed, fixed ...)' },
+        { name: 'Tagging consistency', desc: 'Same format for all releases' },
+        { name: 'Manage & review regularly' },
+      ],
+    },
+ 
+    // ── 8. GITHUB WIKI ──────────────────────────────────────────────────────
+    wiki: {
+      title: 'GitHub Wiki',
+      definition: 'Knowledge base. Ability to document effectively. Simple & organised.',
+      features: [
+        'Markdown syntax',
+        'Version control — easy reversion',
+        'Collaborative editing',
+        'Easy navigation',
+      ],
+      structure: [
+        'Installation Instructions',
+        'Usage guides',
+        'API documentation',
+        'FAQs',
+      ],
+      setting: [
+        {
+          step: 1,
+          title: 'Creating',
+          desc: 'Repo → GitHub → Wiki → 1st page → title, markdown → save',
+        },
+        {
+          step: 2,
+          title: 'Cloning (locally)',
+          cmd: 'git clone <.wiki.url>',
+          desc: 'Clone the wiki repo locally to edit via git',
+        },
+      ],
+    },
   },
+  advanced: {
+    title : "Advanced Git Operations",
+    collaboration: {
+      workflows: [
+        { name: 'Centralized workflow', desc: 'Everyone works on single repo - single branch (main)' },
+        { name: 'Feature branch workflow', desc: 'Each feature - own branch, main with multiple branches' },
+        { name: 'Gitflow workflow', desc: 'Structured branching for scheduled releases - separate prod, dev, testing, hotfix for periodical releases' },
+      ],
+    },
+
+    tagging: {
+      desc: 'Bookmarks on commit, e.g. hash a3f2...x tag v1.0.0',
+      flowSample: 'add, commit, tag, push main & push tag',
+      viewing: [
+        { cmd: 'git tag', desc: 'All tags' },
+        { cmd: 'git tag -l "v1.*"', desc: 'Only v1.x tags' },
+        { cmd: 'git show v1.0.1', desc: 'Commit + msg behind that tag' },
+      ],
+      tagOldCommit: { cmd: 'git tag -a v1.0.1 <hash> -m "msg"' },
+      delete: [
+        { cmd: 'git tag -d v1.0.1', desc: 'Local' },
+        { cmd: 'git push origin --delete v1.0.1', desc: 'Remote' },
+      ],
+      checkout: [
+        { cmd: 'git checkout <tag>', desc: 'Git detached HEAD (not on any branch)' },
+        { cmd: 'git checkout -b hotfix/v1.0.0 v1.0.0', desc: 'New branch start from that tag' },
+      ],
+      push: { cmd: 'git push origin --tags', desc: 'Next tag may be v1.0.2 - push it' },
+      flowSampleFull: 'checkout -b .., commit, tag, push <branch>, push tag',
+    },
+
+    cherryPicking: {
+      desc: 'Pick one specific commit from a branch, apply it to current - instead of whole branch',
+      flowExample: { cmd: 'git log feature-br --oneline', desc: 'Find commit hash: c1p...cmts' },
+      usages: [
+        { cmd: 'git checkout main' },
+        { cmd: 'git cherry-pick <needed-commits-hash>', label: 'single' },
+        { cmd: 'git cherry-pick <cmt1> <cmt2> <cmt3>..', label: 'multiple commits' },
+        { cmd: 'git cherry-pick <1st-cmt>..<last-cmt>', label: 'range of commits', desc: 'order matters; 1st cmt EXclusive, last cmt INclusive' },
+      ],
+      conflicts: {
+        resolve: 'fix, add, git cherry-pick --continue / --abort',
+        note: 'Same commit but made twice - so different hash, twice in history',
+      },
+    },
+
+    packfiles: {
+      problem: 'Every commit stores snapshot as "loose object" in .git/objects/.. - as objects increase, loose files increase → slow & wastes space',
+      solution: 'Packfiles bundle all loose objects into compressed file, store only differences between versions (deltas)',
+      structure: {
+        looseObjects: ['a3/f2121c... - loose obj 1', 'b7/c3de... - loose obj 2'],
+        pack: [
+          'pack-abc123.pack - packfile (bundled & compressed)',
+          'pack-abc123.idx - index for objects inside pack',
+        ],
+      },
+      whenCreated: {
+        byDefault: 'By git when pushed (send) / cloned (receive), threshold ~6700, autopacks',
+        explicit: {
+          desc: 'Garbage collected, pack + cleans',
+          cmds: ['git gc', 'git gc --aggressive'],
+        },
+        manualOps: [
+          { cmd: 'git pack-objects --all .git/objects/pack/pack', label: 'pack' },
+          { cmd: 'git verify-pack -v .git/objects/pack/pack-obj123.idx', label: 'verify' },
+          { cmd: 'git verify-pack -v (..) | head -20', label: 'see', desc: 'cols: hash | type | size | comp size' },
+        ],
+      },
+      deltaTrick: {
+        desc: 'Without pack - all lines of file saved again & again. With pack - all lines saved once, changes alone as versions/deltas',
+        example: {
+          setup: '1000 lines/file, 50 commits, 2 lines changed each time',
+          without: '50 x 1000 = 50000 lines on disk',
+          with: '1000 (base) + 49x2 (diffs) = 1098 lines',
+        },
+      },
+      whenCloneSlow: {
+        cmds: [
+          { cmd: 'git gc --aggressive' },
+          { cmd: 'git repack -a -d --depth=250 --window=250', desc: '-a: repack everything, -d: delete old loose objs after, depth/window: how hard tries to find deltas - higher = smaller pack but slower' },
+        ],
+      },
+    },
+
+    hooks: {
+      desc: 'Scripts that run automatically when git events happen. Live in .git/hooks/',
+      clientSide: {
+        desc: 'Run on ur machine',
+        hooks: [
+          { name: 'pre-commit', desc: 'Before commit created' },
+          { name: 'commit-msg', desc: 'After typed commit msg' },
+          { name: 'pre-push', desc: 'Before push' },
+        ],
+      },
+      serverSide: {
+        desc: 'Run on git server',
+        hooks: [
+          { name: 'pre-receive', desc: 'Before all pushes' },
+          { name: 'post-receive', desc: 'After all pushes' },
+          { name: 'update', desc: 'Per branch review of pre-receive' },
+        ],
+        webhooks: 'Configured with us',
+      },
+      tooling: { tool: 'husky', desc: 'Manage this in JS projects, npm install', note: 'Configured mostly by shell scripts' },
+    },
+
+    worktree: {
+      desc: 'Checkout multiple branches simultaneously, in same repo - multiple branches',
+      usages: [
+        { cmd: 'git worktree add ../branch fix/v1.1.1', label: 'add' },
+        { cmd: 'git worktree list', label: 'list' },
+        { cmd: 'git worktree remove ../branch', label: 'remove' },
+      ],
+    },
+
+    subtreeSubmodules: {
+      desc: 'Project depends on another repo',
+      submodules: {
+        desc: 'Embed another repo - embed as link (linked), not merged (copied), no .gitmodules, no PR for submodule',
+        cmd: 'git submodule add git_url.com/folder',
+        ops: ['update', 'remove', 'clone - default operations'],
+      },
+    },
+
+    filterBranch: {
+      gitFilterBranch: { desc: 'Rewrites git history, change across all commits', note: 'slow & old' },
+      gitFilterRepo: {
+        desc: 'Safe & fast, used when accidentally committed secrets',
+        install: 'pip install git-filter-repo',
+        examples: ['Remove file from all history', 'Rename folder across all history'],
+      },
+    },
+},
 }

@@ -10,6 +10,7 @@ import ComingSoonSection from './components/sections/ComingSoonSection'
 import BranchesSection from './components/sections/BranchesSection'
 import MergeSection from './components/sections/MergeSection'
 import RemoteSection from './components/sections/RemoteSection'
+import GitHubEssentialsSection from './components/sections/GitHubEssentialsSection'
 import useAppStore from './store/useAppStore'
 
 const sectionMap = {
@@ -20,6 +21,7 @@ const sectionMap = {
   undoing:  <UndoingSection />,
   branches: <BranchesSection />,
   remote:   <RemoteSection />,
+  github:   <GitHubEssentialsSection />,
   merge:    <MergeSection />,
   advanced: <ComingSoonSection id="advanced" />,
 }
